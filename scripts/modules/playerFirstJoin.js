@@ -16,7 +16,7 @@ world.afterEvents.playerBreakBlock.subscribe((event) => {
         block.position.y < plot.startPos.y || block.position.y > plot.endPos.y ||
         block.position.z < plot.startPos.z || block.position.z > plot.endPos.z) {
         event.cancel = true;
-        player.sendMessage("Nie możesz niszczyć bloków poza swoją działką!");
+        player.sendMessage("Nie możesz niszczyć tu bloków!");
     }
 });
 
