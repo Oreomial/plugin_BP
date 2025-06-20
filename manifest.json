@@ -1,0 +1,39 @@
+{
+    "format_version": 2,
+    "header": {
+        "name": "SKKYGEN 2",
+        "description": "Add-on do serwera SKYGEN 2",
+        "uuid": "4972fc0f-82b4-4488-a87c-300ec44a9d27",
+        "version": [1, 0, 0],
+        "min_engine_version": [1, 16, 0]
+    },
+    "modules": [
+        {
+            "type": "data",
+            "description": "Behavior pack skygen",
+            "uuid": "119b717a-1de1-408b-b38e-908da4321952",
+            "version": [1, 0, 0]
+        },
+        {
+            "type": "script",
+            "description": "Main module",
+            "language": "javascript",
+            "uuid": "5b0f0739-aa0c-4adc-a4cb-263c53867b0e",
+            "entry": "scripts/main.js",
+            "version": [1, 0, 0]
+        }
+    ],
+    "metadata": {
+        "product_type": "addon"
+    },
+    "dependencies": [
+		{
+			"module_name": "@minecraft/server-ui",
+			"version": "2.0.0"
+		},
+		{
+			"module_name": "@minecraft/server",
+			"version": "2.0.0"
+		}
+	]
+}
