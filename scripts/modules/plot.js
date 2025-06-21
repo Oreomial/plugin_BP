@@ -1,8 +1,9 @@
 import { world } from "@minecraft/server";
 
-world.afterEvents.worldLoad.subscribe(() => {
+let globalFunc
+globalFunc = world.afterEvents.playerSpawn.subscribe(({player}) => {
 if (world.getDynamicProperty("lastPlotNumber") == undefined) {
-    world.setDynamicProperty(`plot_${world.getPlayers()[0].id}`, JSON.stringify(
+    world.setDynamicProperty(`plot_${player.id}`, JSON.stringify(
         {
             id: 1,
             startPos: {
@@ -21,6 +22,7 @@ if (world.getDynamicProperty("lastPlotNumber") == undefined) {
 
     world.setDynamicProperty("lastPlotNumber", 1);
     world.setDynamicProperty("lastPlot", JSON.stringify({x: 3, y:-60, z:0}));
+    world.afterEvents.playerSpawn.unsubscribe(globalFunc);
 }
 });
 
