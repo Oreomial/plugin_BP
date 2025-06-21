@@ -8,7 +8,7 @@
             }
         },
         "components": {
-            "minecraft:custom_components": ["skygen:openmenu"],
+            "skygen:openmenu": {},
             "minecraft:icon": "skygen:book"
         }
     }

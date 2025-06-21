@@ -1,4 +1,3 @@
-import { world } from "@minecraft/server";
 
 //import "./modules/plot.js"
 import "./modules/plot.js";

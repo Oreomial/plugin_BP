@@ -1,47 +1,66 @@
 import { world } from "@minecraft/server";
 
-world.afterEvents.playerBreakBlock.subscribe((event) => {
-    const player = event.player;
-    const block = event.block;
+function inArea(block, a, b) {
+    const x = block.location.x;
+    const y = block.location.y;
+    const z = block.location.z;
 
-    if (!world.getDynamicProperty(`plot_${player.id}`)) {
+    return (
+    (x >= a.x ? x <= b.x : x >= b.x) &&
+    (y >= a.y ? y <= b.y : y >= b.y) &&
+    (z >= a.z ? z <= b.z : z >= b.z)
+);}
+
+const cooldowns = new Map();
+
+function cooldown(player) {
+    const time = 1000;
+    const playerId = player.id;
+    const now = Date.now();
+
+    if (!cooldowns.has(playerId) || now - cooldowns.get(playerId) > time) {
+        cooldowns.set(playerId, now);
+        return true;  // Możemy wysłać wiadomość
+    }
+    return false;  // Jeszcze na cooldownie, nie wysyłamy wiadomości
+}
+
+world.beforeEvents.playerBreakBlock.subscribe((event) => {
+    if (!inPlot(event.player, event.block) && event.player.getGameMode() !== "Creative") {
         event.cancel = true;
-        player.sendMessage("Nie możesz niszczyć tu bloków!");
+        if (cooldown(event.player)) {
+            event.player.sendMessage("§9<SKYGEN 2> §gNie możesz tutaj niszczyć bloków!");
+        }
         return;
     }
+});
 
-    const plot = JSON.parse(world.getDynamicProperty(`plot_${player.id}`));
 
-    if (block.position.x < plot.startPos.x || block.position.x > plot.endPos.x ||
-        block.position.y < plot.startPos.y || block.position.y > plot.endPos.y ||
-        block.position.z < plot.startPos.z || block.position.z > plot.endPos.z) {
+world.beforeEvents.playerInteractWithBlock.subscribe((event) => {
+    if (!inPlot(event.player, event.block) && event.player.getGameMode() !== "Creative") {
         event.cancel = true;
-        player.sendMessage("Nie możesz niszczyć tu bloków!");
+        if (cooldown(event.player)) {
+            event.player.sendMessage("§9<SKYGEN 2> §gNie możesz tutaj tego zrobić!");
+        }
+        return;
     }
 });
 
 world.afterEvents.playerSpawn.subscribe(({player}) => {
     const scoreboard = world.scoreboard;
-
     let objective = scoreboard.getObjective("money");
 
     if (!objective) {
         objective = scoreboard.addObjective("money", "Money");
     }
-    
-    if (!scoreboard.getObjective("register")) {
-        player.dimension.runCommand("scoreboard objectives add register");
+
+    if (!player.scoreboardIdentity || objective.getScore(player.scoreboardIdentity) == undefined) {
+        player.dimension.runCommand(`scoreboard players add ${player.name} money 0`);
     }
 
-    let identity = player.scoreboardIdentity;   
-
-    if (!identity) {
-        player.dimension.runCommand(`scoreboard players add ${player.name} register 0`);
-        identity = player.scoreboardIdentity;
-    }
-    const currentScore = objective.getScore(identity);
-
-    if (currentScore === undefined) {
-        objective.setScore(identity, 0);
+    if (!world.getDynamicProperty(`acces_{player.id}`)) {
+        world.setDynamicProperty(`acces_${player.id}`, JSON.stringify({
+            
+        }));
     }
 })

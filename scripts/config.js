@@ -1,3 +1,3 @@
 export const config = {
-    plotPrice: 101
+    plotPrice: 101,
 }
