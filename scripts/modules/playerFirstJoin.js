@@ -11,6 +11,21 @@ function inArea(block, a, b) {
     (z >= a.z ? z <= b.z : z >= b.z)
 );}
 
+function canAcces(player, block) {
+    const accesRaw = world.getDynamicProperty(`acces_${player.id}`);
+    if (!accesRaw) return false;
+
+    const acces = JSON.parse(accesRaw);
+    for (const plotId in acces) {
+        const plot = acces[plotId];
+        if (inArea(block, plot.startPos, plot.endPos)) {
+            return true; // gracz ma dostęp w tej działce
+        }
+    }
+    return false; // nie w żadnej działce
+}
+
+
 const cooldowns = new Map();
 
 function cooldown(player) {
@@ -20,13 +35,13 @@ function cooldown(player) {
 
     if (!cooldowns.has(playerId) || now - cooldowns.get(playerId) > time) {
         cooldowns.set(playerId, now);
-        return true;  // Możemy wysłać wiadomość
+        return true;
     }
-    return false;  // Jeszcze na cooldownie, nie wysyłamy wiadomości
+    return false;
 }
 
 world.beforeEvents.playerBreakBlock.subscribe((event) => {
-    if (!inPlot(event.player, event.block) && event.player.getGameMode() !== "Creative") {
+    if (!canAcces(event.player, event.block) && event.player.getGameMode() !== "Creative") {
         event.cancel = true;
         if (cooldown(event.player)) {
             event.player.sendMessage("§9<SKYGEN 2> §gNie możesz tutaj niszczyć bloków!");
@@ -37,7 +52,7 @@ world.beforeEvents.playerBreakBlock.subscribe((event) => {
 
 
 world.beforeEvents.playerInteractWithBlock.subscribe((event) => {
-    if (!inPlot(event.player, event.block) && event.player.getGameMode() !== "Creative") {
+    if (!canAcces(event.player, event.block) && event.player.getGameMode() !== "Creative") {
         event.cancel = true;
         if (cooldown(event.player)) {
             event.player.sendMessage("§9<SKYGEN 2> §gNie możesz tutaj tego zrobić!");
@@ -58,9 +73,7 @@ world.afterEvents.playerSpawn.subscribe(({player}) => {
         player.dimension.runCommand(`scoreboard players add ${player.name} money 0`);
     }
 
-    if (!world.getDynamicProperty(`acces_{player.id}`)) {
-        world.setDynamicProperty(`acces_${player.id}`, JSON.stringify({
-            
-        }));
+    if (!world.getDynamicProperty(`acces_${player.id}`)) {
+        world.setDynamicProperty(`acces_${player.id}`, JSON.stringify({}));
     }
 })
