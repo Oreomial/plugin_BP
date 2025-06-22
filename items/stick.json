@@ -1,0 +1,15 @@
+{
+    "format_version": "1.21.90",
+    "minecraft:item": {
+        "description": {
+            "identifier": "skygen:stick",
+            "menu_category": {
+                "category": "equipment"
+            }
+        },
+        "components": {
+            "skygen:allowi": {},
+            "minecraft:icon": "skygen:stick"
+        }
+    }
+}

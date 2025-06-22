@@ -1,0 +1,19 @@
+{
+    "format_version": "1.21.90",
+    "minecraft:block": {
+        "description": {
+            "identifier": "skygen:allowi"
+        },
+        "components": {
+            "minecraft:geometry": "minecraft:geometry.full_block",
+            "minecraft:material_instances": {
+                "*": {
+                        "texture": "skygen:allowi"
+                }
+            },
+            "minecraft:destructible_by_explosion": false,
+            "minecraft:destructible_by_mining": false
+
+        }
+    }
+}

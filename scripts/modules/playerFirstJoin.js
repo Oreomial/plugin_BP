@@ -1,6 +1,25 @@
 import { world } from "@minecraft/server";
+import { config } from "../config";
+
+function endsWithAnyTag(typeId, tags) {
+  for (let i = 0, len = tags.length; i < len; i++) {
+    if (typeId.endsWith(tags[i])) return true;
+  }
+  return false;
+}
+
+function isInteractiveBlock(typeId) {
+  return (
+    config.interactiveBlocks.has(typeId) ||
+    endsWithAnyTag(typeId, config.interactiveTags)
+  );
+}
 
 function inArea(block, a, b) {
+    a.x+=1;
+    a.z+=1;
+    b.x-=1;
+    b.z-=1;
     const x = block.location.x;
     const y = block.location.y;
     const z = block.location.z;
@@ -18,7 +37,7 @@ function canAcces(player, block) {
     const acces = JSON.parse(accesRaw);
     for (const plotId in acces) {
         const plot = acces[plotId];
-        if (inArea(block, plot.startPos, plot.endPos)) {
+        if (inArea(block, plot.startPos , plot.endPos)) {
             return true; // gracz ma dostęp w tej działce
         }
     }
@@ -50,11 +69,24 @@ world.beforeEvents.playerBreakBlock.subscribe((event) => {
     }
 });
 
-
-world.beforeEvents.playerInteractWithBlock.subscribe((event) => {
+world.beforeEvents.playerPlaceBlock.subscribe((event) => {
     if (!canAcces(event.player, event.block) && event.player.getGameMode() !== "Creative") {
         event.cancel = true;
-        if (cooldown(event.player)) {
+        event.player.sendMessage("§9<SKYGEN 2> §gNie możesz tutaj stawiać bloków!");
+
+        return;
+    }
+});
+
+world.beforeEvents.playerInteractWithBlock.subscribe((event) => {
+    const dimension = event.block.dimension;
+
+    if (dimension.getBlock({x: event.block.x, y: -64, z: event.block.z}).typeId !== "skygen:allowi" &&
+    !canAcces(event.player, event.block) 
+    && event.player.getGameMode() !== "Creative" 
+    && isInteractiveBlock(event.block.typeId)) {
+        event.cancel = true;
+        if (event.isFirstEvent) {
             event.player.sendMessage("§9<SKYGEN 2> §gNie możesz tutaj tego zrobić!");
         }
         return;
