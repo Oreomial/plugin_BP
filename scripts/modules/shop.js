@@ -5,14 +5,100 @@ import config from "./configShop.js";
 
 const shopConfig = config?.default || config;
 
+function openQuickSell(player) {
+  const inventory = player.getComponent("inventory").container;
+  const sellableItems = [];
+
+  for (let i = 0; i < inventory.size; i++) {
+    const slot = inventory.getItem(i);
+    if (!slot) continue;
+
+    const itemId = slot.typeId;
+    for (const category of shopConfig.categories) {
+      const match = category.items.find(it => it.id === itemId);
+      if (match && !sellableItems.find(e => e.id === itemId)) {
+        sellableItems.push(match);
+      }
+    }
+  }
+
+  if (sellableItems.length === 0) {
+    player.sendMessage("§cNie masz żadnych przedmiotów, które można sprzedać.");
+    openShop(player);
+    return;
+  }
+
+  const form = new ActionFormData()
+    .title("§lSprzedaż z ekwipunku")
+    .body("§6Wybierz przedmiot do sprzedaży lub sprzedaj wszystko:");
+
+  form.button("§l§cSprzedaj wszystko", "textures/blocks/barrel_top.png");
+
+  for (const item of sellableItems) {
+    const texture = item.icon || `textures/items/${item.id.split(":")[1]}.png`;
+    form.button(getRawText(`<${item.id}>`), texture);
+  }
+
+  form.show(player).then((response) => {
+    if (response.canceled) {
+      openShop(player);
+      return;
+    }
+
+    if (response.selection === 0) {
+      sellAllItems(player, sellableItems);
+      return;
+    }
+
+    const selectedItem = sellableItems[response.selection - 1]; // -1 bo pierwszy przycisk to "sprzedaj wszystko"
+    showSummary(player, selectedItem, false, true); // sprzedaż
+  });
+}
+function sellAllItems(player, sellableItems) {
+  const inventory = player.getComponent("inventory").container;
+  const rankSell = getScore(player, "rankSell");
+  let totalEarned = 0;
+  let totalSold = 0;
+
+  for (const item of sellableItems) {
+    const priceSell = Math.floor(item.priceSell * (100 + rankSell) / 100);
+
+    for (let i = 0; i < inventory.size; i++) {
+      const slot = inventory.getItem(i);
+      if (slot && slot.typeId === item.id) {
+        const amount = slot.amount;
+        totalEarned += amount * priceSell;
+        totalSold += amount;
+        inventory.setItem(i, undefined);
+      }
+    }
+  }
+
+  if (totalEarned > 0) {
+    const currentMoney = getScore(player, "money");
+    setScore(player, "money", currentMoney + totalEarned);
+    player.sendMessage(`§aSprzedano ${totalSold} itemów za łącznie §a$${totalEarned}`);
+  } else {
+    player.sendMessage("§cNie udało się sprzedać żadnych itemów.");
+  }
+
+  openShop(player);
+}
+
+
 export function openShop(player) {
     new ActionFormData()
         .title(`§lSklep - Masz §a$${getScore(player, "money")}`)
         .body("Wybierz opcję:")
         .button("§4Sprzedaj", "textures/items/emerald")
         .button("§2Kup", "textures/items/gold_ingot.png")
+        .button("§6Sprzedaj z ekwipunku", "textures/items/chest.png")
         .show(player).then((response) => {
         if (response.canceled) return;
+        if (response.selection === 2) {
+            openQuickSell(player);
+            return;
+        }
         showCategories(player, response.selection == 1);
     });
 }
@@ -132,7 +218,7 @@ function showItems(player, category, buy) {
   });
 }
 
-function showSummary(player, item, buy) {
+function showSummary(player, item, buy, quickSell) {
   const rankBuy = getScore(player, "rankBuy");
   const rankSell = getScore(player, "rankSell");
 
@@ -198,7 +284,11 @@ function showSummary(player, item, buy) {
   form.submitButton("Potwierdź")
   form.show(player).then((response) => {
     if (response.canceled) {
-        showItems(player, shopConfig.categories.find(cat => cat.items.includes(item)), buy);
+        if (quickSell) {
+            openQuickSell(player);
+        } else {    
+            showItems(player, shopConfig.categories.find(cat => cat.items.includes(item)), buy);
+        }
         return;
     }
 
