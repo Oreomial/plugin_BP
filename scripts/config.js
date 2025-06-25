@@ -1,4 +1,6 @@
 export const config = {
+    spawn: { x:0, y: 0, z: 0 },
+    dzialki: { x:0, y:0, z:0 },
     plotPrice: 101,
     interactiveBlocks: new Set([
         "minecraft:chest",
@@ -41,5 +43,5 @@ export const config = {
         "_pressure_plate",
         "_sign",
         "_hanging_sign"
-    ]
+    ],
 }

@@ -1,6 +1,8 @@
 import { world, system, } from "@minecraft/server";
 import { config } from "../config";
+import { getMenu } from "./warps";
 import { ActionFormData } from "@minecraft/server-ui";
+import { openShop } from "./shop";
 import { createPlot,addToWhitelist, removeFromWhitelist } from "./plot";
 
 function addPlayerMenu(player){
@@ -107,8 +109,8 @@ function dzialki(player) {
         let form = new ActionFormData();
         form.title("Menu");
         form.body(`Menu działki ${dzialka.id}`);
-        form.button(`Dodaj gracza`);
-        form.button(`Usuń gracza`);
+        form.button(`Dodaj gracza`, "textures/ui/plus.png");
+        form.button(`Usuń gracza`, "textures/ui/minus.png");
 
         form.show(player).then((result) => {
             if (result.canceled) {
@@ -135,8 +137,9 @@ const customComponent = {
         let form = new ActionFormData();
         form.title("Menu");
         form.body("Menu SKYGEN 2");
-        form.button("Dzialki");
-        form.button("Warp");
+        form.button("Dzialki", "textures/items/map_locked.png");
+        form.button("Warpy", "textures/items/ender_pearl.png");
+        form.button("Sklep", "textures/items/emerald.png")
 
         form.show(event.source).then((result) => {
             if (result.canceled) {
@@ -147,6 +150,10 @@ const customComponent = {
                     dzialki(event.source);
                     break;
                 case 1:
+                    getMenu(event.source);
+                    break;
+                case 2:
+                    openShop(event.source);
                     break;
                 default:
                     console.warn("Nieznany 137/", result.selection);

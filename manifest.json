@@ -1,7 +1,7 @@
 {
     "format_version": 2,
     "header": {
-        "name": "SKKYGEN 2",
+        "name": "SKYGEN 2",
         "description": "Add-on do serwera SKYGEN 2",
         "uuid": "4972fc0f-82b4-4488-a87c-300ec44a9d27",
         "version": [1, 0, 0],
