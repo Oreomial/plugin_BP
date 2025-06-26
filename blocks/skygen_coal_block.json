@@ -1,0 +1,33 @@
+{
+    "format_version": "1.21.90",
+    "minecraft:block": {
+        "description": {
+            "identifier": "skygen:coal_block",
+            "is_experimental": true
+        },
+        "components": {
+            "minecraft:display_name": "tile.coal_block.name",
+            "skygen:generator": {
+                "level": 2,
+                "item": "minecraft:coal"
+            },
+            "minecraft:destructible_by_mining": {
+                "seconds_to_destroy": 5
+            },
+            "minecraft:destructible_by_explosion": false,
+            "minecraft:geometry": "minecraft:geometry.full_block",
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "skygen:coal_block"
+                }
+            },
+            "minecraft:tick": {
+                "interval_range": [
+                    400,
+                    400
+                ],
+                "looping": true
+            }
+        }
+    }
+}

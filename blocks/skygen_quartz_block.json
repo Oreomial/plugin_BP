@@ -1,0 +1,39 @@
+{
+    "format_version": "1.21.90",
+    "minecraft:block": {
+        "description": {
+            "identifier": "skygen:quartz_block",
+            "is_experimental": true
+        },
+        "components": {
+            "minecraft:display_name": "tile.quartz_block.name",
+            "skygen:generator": {
+                "level": 14,
+                "item": "minecraft:quartz"
+            },
+            "minecraft:destructible_by_mining": {
+                "seconds_to_destroy": 5
+            },
+            "minecraft:destructible_by_explosion": false,
+            "minecraft:geometry": "minecraft:geometry.full_block",
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "skygen:quartz_block_side"
+                },
+                "up": {
+                    "texture": "skygen:quartz_block_top"
+                },
+                "down": {
+                    "texture": "skygen:quartz_block_bottom"
+                }
+            },
+            "minecraft:tick": {
+                "interval_range": [
+                    400,
+                    400
+                ],
+                "looping": true
+            }
+        }
+    }
+}

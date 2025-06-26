@@ -1,0 +1,39 @@
+{
+    "format_version": "1.21.90",
+    "minecraft:block": {
+        "description": {
+            "identifier": "skygen:ancient_debris",
+            "is_experimental": true
+        },
+        "components": {
+            "minecraft:display_name": "tile.ancient_debris.name",
+            "skygen:generator": {
+                "level": 19,
+                "item": "minecraft:netherite_scrap"
+            },
+            "minecraft:destructible_by_mining": {
+                "seconds_to_destroy": 5
+            },
+            "minecraft:destructible_by_explosion": false,
+            "minecraft:geometry": "minecraft:geometry.full_block",
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "skygen:ancient_debris_side"
+                },
+                "up": {
+                    "texture": "skygen:ancient_debris_top"
+                },
+                "down": {
+                    "texture": "skygen:ancient_debris_top"
+                }
+            },
+            "minecraft:tick": {
+                "interval_range": [
+                    400,
+                    400
+                ],
+                "looping": true
+            }
+        }
+    }
+}

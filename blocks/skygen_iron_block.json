@@ -1,0 +1,33 @@
+{
+    "format_version": "1.21.90",
+    "minecraft:block": {
+        "description": {
+            "identifier": "skygen:iron_block",
+            "is_experimental": true
+        },
+        "components": {
+            "minecraft:display_name": "tile.iron_block.name",
+            "skygen:generator": {
+                "level": 7,
+                "item": "minecraft:iron_ingot"
+            },
+            "minecraft:destructible_by_mining": {
+                "seconds_to_destroy": 5
+            },
+            "minecraft:destructible_by_explosion": false,
+            "minecraft:geometry": "minecraft:geometry.full_block",
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "skygen:iron_block"
+                }
+            },
+            "minecraft:tick": {
+                "interval_range": [
+                    400,
+                    400
+                ],
+                "looping": true
+            }
+        }
+    }
+}

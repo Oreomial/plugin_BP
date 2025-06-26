@@ -1,0 +1,39 @@
+{
+    "format_version": "1.21.90",
+    "minecraft:block": {
+        "description": {
+            "identifier": "skygen:dried_kelp_block",
+            "is_experimental": true
+        },
+        "components": {
+            "minecraft:display_name": "tile.dried_kelp_block.name",
+            "skygen:generator": {
+                "level": 3,
+                "item": "minecraft:dried_kelp"
+            },
+            "minecraft:destructible_by_mining": {
+                "seconds_to_destroy": 5
+            },
+            "minecraft:destructible_by_explosion": false,
+            "minecraft:geometry": "minecraft:geometry.full_block",
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "skygen:dried_kelp_side_a"
+                },
+                "up": {
+                    "texture": "skygen:dried_kelp_top"
+                },
+                "down": {
+                    "texture": "skygen:dried_kelp_top"
+                }
+            },
+            "minecraft:tick": {
+                "interval_range": [
+                    400,
+                    400
+                ],
+                "looping": true
+            }
+        }
+    }
+}
