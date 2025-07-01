@@ -32,7 +32,7 @@ function openQuickSell(player) {
     .title("§lSprzedaż z ekwipunku")
     .body("§6Wybierz przedmiot do sprzedaży lub sprzedaj wszystko:");
 
-  form.button("§l§cSprzedaj wszystko", "textures/blocks/barrel_top.png");
+  form.button("§l§cSprzedaj wszystko", "textures/ui/inventory_icon");
 
   for (const item of sellableItems) {
     const texture = item.icon || `textures/items/${item.id.split(":")[1]}.png`;
@@ -51,7 +51,7 @@ function openQuickSell(player) {
     }
 
     const selectedItem = sellableItems[response.selection - 1]; // -1 bo pierwszy przycisk to "sprzedaj wszystko"
-    showSummary(player, selectedItem, false, true); // sprzedaż
+    showSummary(player, selectedItem, false, true, {}); // sprzedaż
   });
 }
 function sellAllItems(player, sellableItems) {
@@ -88,11 +88,11 @@ function sellAllItems(player, sellableItems) {
 
 export function openShop(player) {
     new ActionFormData()
-        .title(`§lSklep - Masz §a$${getScore(player, "money")}`)
+        .title(`§lSklep - Masz §2$${getScore(player, "money")}`)
         .body("Wybierz opcję:")
-        .button("§4Sprzedaj", "textures/items/emerald")
-        .button("§2Kup", "textures/items/gold_ingot.png")
-        .button("§6Sprzedaj z ekwipunku", "textures/items/chest.png")
+        .button("Sprzedaj", "textures/items/emerald")
+        .button("Kup", "textures/items/gold_ingot.png")
+        .button("Sprzedaj z ekwipunku", "textures/ui/inventory_icon")
         .show(player).then((response) => {
         if (response.canceled) return;
         if (response.selection === 2) {
@@ -169,7 +169,7 @@ function setScore(player, objective, value) {
 
 function showCategories(player, buy) {
   const form = new ActionFormData()
-    .title(`§lSklep - Masz §a$${getScore(player, "money")}`)
+    .title(`§lSklep - Masz §2$${getScore(player, "money")}`)
     .body("Wybierz kategorię:");
 
   for (const category of shopConfig.categories) {
@@ -192,7 +192,7 @@ function showItems(player, category, buy) {
   const rankSell = getScore(player, "rankSell");
 
   const form = new ActionFormData()
-    .title(`${category.name} - Masz §a$${getScore(player, "money")}`)
+    .title(`${category.name} - Masz §2$${getScore(player, "money")}`)
     .body("Wybierz item:");
 
   for (const item of category.items) {
@@ -200,10 +200,10 @@ function showItems(player, category, buy) {
     const priceBuy = Math.ceil(item.priceBuy * (100 - rankBuy) / 100);
     const priceSell = Math.floor(item.priceSell * (100 + rankSell) / 100);
     if (buy) {
-        form.button(getRawText(`<${item.id}>\n§2Kup jeden za: $${priceBuy}`), texture);
+        form.button(getRawText(`§2$${priceBuy}§r - ${category.prefix || ""}<${item.langId || item.id}>`), texture);
     }
     else {
-        form.button(getRawText(`<${item.id}>\n§cSprzedaj jeden za: $${priceSell}`), texture);
+        form.button(getRawText(`§4$${priceSell}§r - ${category.prefix || ""}<${item.langId || item.id}>`), texture);
     }
     
   }
@@ -214,11 +214,11 @@ function showItems(player, category, buy) {
         return;
     }
     const item = category.items[response.selection];
-    showSummary(player, item, buy);
+    showSummary(player, item, buy, category);
   });
 }
 
-function showSummary(player, item, buy, quickSell) {
+function showSummary(player, item, buy, category, quickSell) {
   const rankBuy = getScore(player, "rankBuy");
   const rankSell = getScore(player, "rankSell");
 
@@ -266,14 +266,14 @@ function showSummary(player, item, buy, quickSell) {
         }
     }
   const form = new ModalFormData()
-    .title(`§lPodsumowanie - Masz §a$${getScore(player, "money")}`)
-    .header(getRawText(`${buy ? "§aKupujesz§r" : "§4Sprzedajesz§r"} <${item.id}>`))
+    .title(`§lPodsumowanie - Masz §2$${getScore(player, "money")}`)
+    .header(getRawText(`${buy ? "§aKupujesz§r" : "§4Sprzedajesz§r"} ${category.prefix || ""}<${item.langId || item.id}>`))
     .divider();
     if (buy) {
-        form.label(getRawText(`Jeden <${item.id}> kosztuje §a$${priceBuy}.`));
+        form.label(getRawText(`Jeden ${category.prefix || ""}<${item.langId || item.id}> kosztuje §a$${priceBuy}.`));
     }
     else {
-        form.label(getRawText(`${countInInventory}x <${item.id}> sprzedasz za §a$${priceSell*countInInventory}.`));
+        form.label(getRawText(`${countInInventory}x <${item.langId || item.id}> sprzedasz za §a$${priceSell*countInInventory}.`));
     }
   const maxAmount = buy ? maxBuyAmount : maxSellAmount ;
   let deafultValue = 1;
@@ -296,7 +296,7 @@ function showSummary(player, item, buy, quickSell) {
     const amount = response.formValues[3];
     if (amount <= 0) {
         player.sendMessage("§cNieprawidłowa ilość!");
-         showSummary(player, item, buy);
+         showSummary(player, item, buy, category);
     return;
     }
 
@@ -330,7 +330,7 @@ function showSummary(player, item, buy, quickSell) {
         player.sendMessage(getRawText(`§cNie masz tyle itemów do sprzedaży! Sprzedano tylko ${removed}x <${item.id}>.`));
         }
         else {
-            player.sendMessage(getRawText(`§4Sprzedano §f${removed}x <${item.id}> za §a$${finalPrice}`));
+            player.sendMessage(getRawText(`§4Sprzedano §f${removed}x <${item.langId || item.id}> za §a$${finalPrice}`));
         }
       setScore(player, "money", money + finalPrice);
     } else {
@@ -347,7 +347,7 @@ function showSummary(player, item, buy, quickSell) {
 
       setScore(player, "money", money - finalPrice);
       inventory.addItem(stack);
-      player.sendMessage(getRawText(`§aKupiono §f${amount}x <${item.id}> za §a$${finalPrice}`));
+      player.sendMessage(getRawText(`§aKupiono §f${amount}x <${item.langId || item.id}> za §a$${finalPrice}`));
     }    
   });
 }
