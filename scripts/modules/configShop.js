@@ -1,3 +1,5 @@
+import { PotionLiquidType, PotionEffectType, PotionModifierType } from "@minecraft/server";
+
 function calculateGeneratorStats(level) {
   // --- Konfiguracja Balansu ---
   const BASE_PRICE = 100;
@@ -45,8 +47,16 @@ export default {
       "name": "Minerały",
       "icon": "textures/items/diamond",
       "items": [
-        { "id": "minecraft:diamond", "priceBuy": 100, "priceSell": 70 },
-        { "id": "minecraft:iron_ingot", "priceBuy": 40, "priceSell": 20 }
+        {
+          "id": "minecraft:diamond",
+          "priceBuy": 100,
+          "priceSell": 70
+        },
+        {
+          "id": "minecraft:iron_ingot",
+          "priceBuy": 40,
+          "priceSell": 20
+        }
       ]
     },
     {
@@ -81,18 +91,22 @@ export default {
       "name": "Zbroja",
       "icon": "textures/items/diamond_chestplate",
       "items": [
+        // --- Zbroja Netherytowa ---
         { "id": "minecraft:netherite_helmet", "priceBuy": 10000, "priceSell": 7000 },
         { "id": "minecraft:netherite_chestplate", "priceBuy": 16000, "priceSell": 11200 },
         { "id": "minecraft:netherite_leggings", "priceBuy": 14000, "priceSell": 9800 },
         { "id": "minecraft:netherite_boots", "priceBuy": 8000, "priceSell": 5600 },
+        // --- Zbroja Diamentowa ---
         { "id": "minecraft:diamond_helmet", "priceBuy": 2500, "priceSell": 1750 },
         { "id": "minecraft:diamond_chestplate", "priceBuy": 4000, "priceSell": 2800 },
         { "id": "minecraft:diamond_leggings", "priceBuy": 3500, "priceSell": 2450 },
         { "id": "minecraft:diamond_boots", "priceBuy": 2000, "priceSell": 1400 },
+        // --- Zbroja Złota ---
         { "id": "minecraft:golden_helmet", "icon": "textures/items/gold_helmet", "priceBuy": 375, "priceSell": 225 },
         { "id": "minecraft:golden_chestplate", "icon": "textures/items/gold_chestplate", "priceBuy": 600, "priceSell": 360 },
         { "id": "minecraft:golden_leggings", "icon": "textures/items/gold_leggings", "priceBuy": 525, "priceSell": 315 },
         { "id": "minecraft:golden_boots", "icon": "textures/items/gold_boots", "priceBuy": 300, "priceSell": 180 },
+        // --- Zbroja Żelazna ---
         { "id": "minecraft:iron_helmet", "priceBuy": 250, "priceSell": 150 },
         { "id": "minecraft:iron_chestplate", "priceBuy": 400, "priceSell": 240 },
         { "id": "minecraft:iron_leggings", "priceBuy": 350, "priceSell": 210 },
@@ -103,21 +117,25 @@ export default {
       "name": "Narzędzia i Broń",
       "icon": "textures/items/diamond_sword",
       "items": [
+        // --- Netherytowe ---
         { "id": "minecraft:netherite_sword", "priceBuy": 12000, "priceSell": 8400 },
         { "id": "minecraft:netherite_pickaxe", "priceBuy": 12000, "priceSell": 8400 },
         { "id": "minecraft:netherite_axe", "priceBuy": 10000, "priceSell": 7000 },
         { "id": "minecraft:netherite_shovel", "priceBuy": 6000, "priceSell": 4200 },
         { "id": "minecraft:netherite_hoe", "priceBuy": 4000, "priceSell": 2800 },
+        // --- Diamentowe ---
         { "id": "minecraft:diamond_sword", "priceBuy": 3000, "priceSell": 2100 },
         { "id": "minecraft:diamond_pickaxe", "priceBuy": 3000, "priceSell": 2100 },
         { "id": "minecraft:diamond_axe", "priceBuy": 2500, "priceSell": 1750 },
         { "id": "minecraft:diamond_shovel", "priceBuy": 1500, "priceSell": 1050 },
         { "id": "minecraft:diamond_hoe", "priceBuy": 1000, "priceSell": 700 },
+        // --- Złote ---
         { "id": "minecraft:golden_sword", "icon": "textures/items/gold_sword", "priceBuy": 450, "priceSell": 270 },
         { "id": "minecraft:golden_pickaxe", "icon": "textures/items/gold_pickaxe", "priceBuy": 450, "priceSell": 270 },
         { "id": "minecraft:golden_axe", "icon": "textures/items/gold_axe", "priceBuy": 375, "priceSell": 225 },
         { "id": "minecraft:golden_shovel", "icon": "textures/items/gold_shovel", "priceBuy": 225, "priceSell": 135 },
         { "id": "minecraft:golden_hoe", "icon": "textures/items/gold_hoe", "priceBuy": 150, "priceSell": 90 },
+        // --- Żelazne ---
         { "id": "minecraft:iron_sword", "priceBuy": 300, "priceSell": 180 },
         { "id": "minecraft:iron_pickaxe", "priceBuy": 300, "priceSell": 180 },
         { "id": "minecraft:iron_axe", "priceBuy": 250, "priceSell": 150 },
@@ -125,30 +143,158 @@ export default {
         { "id": "minecraft:iron_hoe", "priceBuy": 100, "priceSell": 60 }
       ]
     },
+   {
+  "name": "Potki",
+  "icon": "textures/items/potion_bottle_heal",
+  "items": [
     {
-      "name": "Enchanty",
-      "icon": "textures/items/book_enchanted",
-      "items": [
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.mending", "priceBuy": 20000, "priceSell": 5000, "enchantments": [{ "id": "mending", "level": 1 }] },
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.lootBonusDigger,3", "priceBuy": 18000, "priceSell": 4500, "enchantments": [{ "id": "fortune", "level": 3 }] },
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.protect.all,4", "priceBuy": 10000, "priceSell": 2500, "enchantments": [{ "id": "protection", "level": 4 }] },
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.damage.all,5", "priceBuy": 12000, "priceSell": 3000, "enchantments": [{ "id": "sharpness", "level": 5 }] },
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.lootBonus,3", "priceBuy": 12000, "priceSell": 3000, "enchantments": [{ "id": "looting", "level": 3 }] },
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.digging,5", "priceBuy": 9000, "priceSell": 2200, "enchantments": [{ "id": "efficiency", "level": 5 }] },
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.durability,3", "priceBuy": 8000, "priceSell": 2000, "enchantments": [{ "id": "unbreaking", "level": 3 }] },
-        { "id": "minecraft:enchanted_book", "langId": "enchantment.untouching", "priceBuy": 7500, "priceSell": 1800, "enchantments": [{ "id": "silk_touch", "level": 1 }] }
-      ]
+      "langId": "potion.moveSpeed.name",
+      "icon": "textures/items/potion_bottle_moveSpeed",
+      "id": "minecraft:potion",
+      "priceBuy": 900,
+      "priceSell": 600,
+      "potion": {
+        effect: "Swiftness",       // <-- zamiast "Speed"
+        liquid: "Regular",
+        modifier: "Normal"
+      }
     },
     {
-      "name": "Potki",
-      "icon": "textures/items/potion_bottle_drinkable",
-      "items": [
-        { "id": "minecraft:potion", "langId": "potion.damageBoost.name", "priceBuy": 1200, "priceSell": 400, "potionData": { "effect": "strength", "modifier": "strong" } },
-        { "id": "minecraft:potion", "langId": "potion.moveSpeed.name", "priceBuy": 800, "priceSell": 250, "potionData": { "effect": "speed", "modifier": "strong" } },
-        { "id": "minecraft:potion", "langId": "potion.fireResistance.name", "priceBuy": 600, "priceSell": 200, "potionData": { "effect": "fire_resistance", "modifier": "long" } },
-        { "id": "minecraft:splash_potion", "langId": "potion.heal.name", "priceBuy": 750, "priceSell": 250, "potionData": { "effect": "healing", "modifier": "strong", "liquid": "splash" } },
-        { "id": "minecraft:splash_potion", "langId": "potion.harm.name", "priceBuy": 850, "priceSell": 280, "potionData": { "effect": "harming", "modifier": "strong", "liquid": "splash" } }
-      ]
+      "langId": "potion.moveSpeed.linger.name",
+      "icon": "textures/items/potion_bottle_moveSpeed",
+      "id": "minecraft:potion",
+      "priceBuy": 1500,
+      "priceSell": 1000,
+      "potion": {
+        effect: "Swiftness",       // <-- zamiast "Speed"
+        liquid: "Regular",
+        modifier: "Long"
+      }
+    },
+    {
+      "langId": "potion.moveSpeed.name> <potion.potency.1",
+      "icon": "textures/items/potion_bottle_moveSpeed",
+      "id": "minecraft:potion",
+      "priceBuy": 2100,
+      "priceSell": 1470,
+      "potion": {
+        effect: "Swiftness",       // <-- zamiast "Speed"
+        liquid: "Regular",
+        modifier: "Strong"
+      }
+    },
+    {
+      "langId": "potion.damageBoost.name",
+      "icon": "textures/items/potion_bottle_damageBoost",
+      "id": "minecraft:potion",
+      "priceBuy": 2000,
+      "priceSell": 1400,
+      "potion": {
+        effect: "Strength",        // <-- zamiast "DamageBoost"
+        liquid: "Regular",
+        modifier: "Normal"
+      }
+    },
+    {
+      "langId": "potion.damageBoost.linger.name",
+      "icon": "textures/items/potion_bottle_damageBoost",
+      "id": "minecraft:potion",
+      "priceBuy": 3000,
+      "priceSell": 2100,
+      "potion": {
+        effect: "Strength",        // <-- zamiast "DamageBoost"
+        liquid: "Regular",
+        modifier: "Long"
+      }
+    },
+    {
+      "langId": "potion.damageBoost.name> <potion.potency.1",
+      "icon": "textures/items/potion_bottle_damageBoost",
+      "id": "minecraft:potion",
+      "priceBuy": 4000,
+      "priceSell": 2800,
+      "potion": {
+        effect: "Strength",        // <-- zamiast "DamageBoost"
+        liquid: "Regular",
+        modifier: "Strong"
+      }
+    },
+    {
+      "langId": "potion.heal.splash.name",
+      "icon": "textures/items/potion_bottle_splash_healthBoost",
+      "id": "minecraft:splash_potion",
+      "priceBuy": 2700,
+      "priceSell": 1900,
+      "potion": {
+        effect: "Healing",          // <-- InstantHealth to "Healing"
+        liquid: "Splash",
+        modifier: "Normal"
+      }
+    },
+    {
+      "langId": "potion.heal.splash.name> <potion.potency.1",
+      "icon": "textures/items/potion_bottle_splash_healthBoost",
+      "id": "minecraft:splash_potion",
+      "priceBuy": 3900,
+      "priceSell": 2730,
+      "potion": {
+        effect: "Healing",
+        liquid: "Splash",
+        modifier: "Strong"
+      }
+    },
+    {
+      "langId": "potion.fireResistance.name",
+      "icon": "textures/items/potion_bottle_fireResistance",
+      "id": "minecraft:potion",
+      "priceBuy": 1200,
+      "priceSell": 800,
+      "potion": {
+        effect: "FireResistance",
+        liquid: "Regular",
+        modifier: "Normal"
+      }
+    },
+    {
+      "langId": "potion.fireResistance.linger.name",
+      "icon": "textures/items/potion_bottle_fireResistance",
+      "id": "minecraft:potion",
+      "priceBuy": 2000,
+      "priceSell": 1600,
+      "potion": {
+        effect: "FireResistance",
+        liquid: "Regular",
+        modifier: "Long"
+      }
+    },
+    {
+      "langId": "potion.turtleMaster.name",
+      "icon": "textures/items/potion_bottle_turtleMaster",
+      "id": "minecraft:potion",
+      "priceBuy": 4500,
+      "priceSell": 3200,
+      "potion": {
+        effect: "TurtleMaster",
+        liquid: "Regular",
+        modifier: "Normal"
+      }
+    },
+    {
+      "langId": "potion.turtleMaster.name> <potion.potency.1",
+      "icon": "textures/items/potion_bottle_turtleMaster",
+      "id": "minecraft:potion",
+      "priceBuy": 4500,
+      "priceSell": 3200,
+      "potion": {
+        effect: "TurtleMaster",
+        liquid: "Regular",
+        modifier: "Strong"
+      }
     }
+  ]
+}
+
+
+
   ]
 }

@@ -1,5 +1,5 @@
 // openShop.js
-import { world, ItemStack, ItemType, ItemTypes } from "@minecraft/server";
+import { world, ItemStack, ItemType, ItemTypes, PotionEffectType, PotionLiquidType, PotionModifierType} from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
 import config from "./configShop.js";
 
@@ -14,6 +14,10 @@ function openQuickSell(player) {
     if (!slot) continue;
 
     const itemId = slot.typeId;
+    console.warn(itemId)
+      if (itemId === "minecraft:potion") {
+        console.warn(slot.getComponent("minecraft:potion").potionEffectType.id);
+      }
     for (const category of shopConfig.categories) {
       const match = category.items.find(it => it.id === itemId);
       if (match && !sellableItems.find(e => e.id === itemId)) {
@@ -235,8 +239,10 @@ function showSummary(player, item, buy, category, quickSell) {
   }
 
   const money = getScore(player, "money");
-
-    const tmpItem = new ItemStack(item.id);
+ItemStack
+    const tmpItem = new item.potion
+        ? ItemStack.createPotion(item.potion)
+        : new ItemStack(item.id, amount);
     const maxStack = tmpItem.maxAmount;
 
   const maxBuyAmount = Math.min(
@@ -339,7 +345,11 @@ function showSummary(player, item, buy, category, quickSell) {
         showItems(player, shopConfig.categories.find(cat => cat.items.includes(item)), buy);
         return;
       }
-      const stack = new ItemStack(item.id, amount);
+      
+      const stack = item.potion
+        ? ItemStack.createPotion(item.potion)
+        : new ItemStack(item.id, amount);
+
       if (!canFitAmount(inventory, stack)) {
          player.sendMessage("§cNie masz wystarczająco miejsca w ekwipunku!");
          return;
@@ -401,7 +411,8 @@ function getRawText(template) {
                     rawtext.push({ text: id.replace("minecraft:", "").replace(/_/g, " ") });
                 }
             } catch {
-                rawtext.push({ text: id.replace("minecraft:", "").replace(/_/g, " ") });
+                rawtext.push({ translate: id });
+                console.warn("catch!")
             }
         }
         lastIndex = regex.lastIndex;
