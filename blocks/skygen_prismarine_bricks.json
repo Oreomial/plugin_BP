@@ -6,7 +6,7 @@
             "is_experimental": true
         },
         "components": {
-            "minecraft:display_name": "tile.prismarine_bricks.name",
+            "minecraft:display_name": "tile.prismarine.bricks.name",
             "skygen:generator": {
                 "level": 18,
                 "item": "minecraft:prismarine_shard"

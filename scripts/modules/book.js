@@ -137,9 +137,9 @@ const customComponent = {
         let form = new ActionFormData();
         form.title("Menu");
         form.body("Menu SKYGEN 2");
-        form.button("Dzialki", "textures/items/map_locked.png");
-        form.button("Warpy", "textures/items/ender_pearl.png");
-        form.button("Sklep", "textures/items/emerald.png")
+        form.button("Dzialki", "textures/items/map_locked");
+        form.button("Warpy", "textures/items/ender_pearl");
+        form.button("Sklep", "textures/ui/icon_minecoin_9x9")
 
         form.show(event.source).then((result) => {
             if (result.canceled) {

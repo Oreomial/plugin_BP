@@ -8,6 +8,7 @@
             }
         },
         "components": {
+            "minecraft:display_name": { "value": "§9Menu" },
             "skygen:openmenu": {},
             "minecraft:icon": "skygen:book"
         }

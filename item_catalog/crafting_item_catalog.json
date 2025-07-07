@@ -1,0 +1,40 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:crafting_items_catalog": {
+    "categories": [
+      {
+        "category_name": "equipment",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "skygen:hay_block",
+              "name": "category.skygen:generatory"
+            },
+            "items": [
+              "skygen:hay_block",
+              "skygen:coal_block",
+              "skygen:dried_kelp_block",
+              "skygen:brick_block",
+              "skygen:honeycomb_block",
+              "skygen:copper_block",
+              "skygen:iron_block",
+              "skygen:slime",
+              "skygen:redstone_block",
+              "skygen:gold_block",
+              "skygen:nether_wart_block",
+              "skygen:nether_brick",
+              "skygen:glowstone",
+              "skygen:quartz_block",
+              "skygen:amethyst_block",
+              "skygen:emerald_block",
+              "skygen:diamond_block",
+              "skygen:prismarine_bricks",
+              "skygen:ancient_debris",
+              "skygen:netherite_block"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -2,11 +2,11 @@
     "format_version": "1.21.90",
     "minecraft:block": {
         "description": {
-            "identifier": "skygen:nether_bricks",
+            "identifier": "skygen:nether_brick",
             "is_experimental": true
         },
         "components": {
-            "minecraft:display_name": "tile.nether_bricks.name",
+            "minecraft:display_name": "item.netherbrick.name",
             "skygen:generator": {
                 "level": 12,
                 "item": "minecraft:nether_brick"

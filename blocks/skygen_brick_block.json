@@ -6,7 +6,7 @@
             "is_experimental": true
         },
         "components": {
-            "minecraft:display_name": "tile.bricks.name",
+            "minecraft:display_name": "item.brick.name",
             "skygen:generator": {
                 "level": 4,
                 "item": "minecraft:brick"
