@@ -1,13 +1,11 @@
 import { PotionLiquidType, PotionEffectType, PotionModifierType } from "@minecraft/server";
 
 function calculateGeneratorStats(level) {
-  // --- Konfiguracja Balansu ---
   const BASE_PRICE = 100;
   const PRICE_MULTIPLIER = 2.4;
   const BASE_PROFIT = 10;
   const PROFIT_MULTIPLIER = 1.85;
 
-  // --- Obliczenia ---
   const price = BASE_PRICE * Math.pow(PRICE_MULTIPLIER, level - 1);
   const profit = BASE_PROFIT * Math.pow(PROFIT_MULTIPLIER, level - 1);
 
@@ -17,7 +15,6 @@ function calculateGeneratorStats(level) {
   };
 }
 
-// Dane wejściowe dla generatorów
 const generators_data = [
     {"level": 1, "block_id": "hay_block", "item_id": "wheat", "textures": {"up": "hay_block_top", "down": "hay_block_top", "side": "hay_block_side"}},
     {"level": 2, "block_id": "coal_block", "item_id": "coal", "textures": "coal_block"},
@@ -91,22 +88,21 @@ export default {
       "name": "Zbroja",
       "icon": "textures/items/diamond_chestplate",
       "items": [
-        // --- Zbroja Netherytowa ---
         { "id": "minecraft:netherite_helmet", "priceBuy": 10000, "priceSell": 7000 },
         { "id": "minecraft:netherite_chestplate", "priceBuy": 16000, "priceSell": 11200 },
         { "id": "minecraft:netherite_leggings", "priceBuy": 14000, "priceSell": 9800 },
         { "id": "minecraft:netherite_boots", "priceBuy": 8000, "priceSell": 5600 },
-        // --- Zbroja Diamentowa ---
+        
         { "id": "minecraft:diamond_helmet", "priceBuy": 2500, "priceSell": 1750 },
         { "id": "minecraft:diamond_chestplate", "priceBuy": 4000, "priceSell": 2800 },
         { "id": "minecraft:diamond_leggings", "priceBuy": 3500, "priceSell": 2450 },
         { "id": "minecraft:diamond_boots", "priceBuy": 2000, "priceSell": 1400 },
-        // --- Zbroja Złota ---
+        
         { "id": "minecraft:golden_helmet", "icon": "textures/items/gold_helmet", "priceBuy": 375, "priceSell": 225 },
         { "id": "minecraft:golden_chestplate", "icon": "textures/items/gold_chestplate", "priceBuy": 600, "priceSell": 360 },
         { "id": "minecraft:golden_leggings", "icon": "textures/items/gold_leggings", "priceBuy": 525, "priceSell": 315 },
         { "id": "minecraft:golden_boots", "icon": "textures/items/gold_boots", "priceBuy": 300, "priceSell": 180 },
-        // --- Zbroja Żelazna ---
+        
         { "id": "minecraft:iron_helmet", "priceBuy": 250, "priceSell": 150 },
         { "id": "minecraft:iron_chestplate", "priceBuy": 400, "priceSell": 240 },
         { "id": "minecraft:iron_leggings", "priceBuy": 350, "priceSell": 210 },
@@ -117,25 +113,24 @@ export default {
       "name": "Narzędzia i Broń",
       "icon": "textures/items/diamond_sword",
       "items": [
-        // --- Netherytowe ---
         { "id": "minecraft:netherite_sword", "priceBuy": 12000, "priceSell": 8400 },
         { "id": "minecraft:netherite_pickaxe", "priceBuy": 12000, "priceSell": 8400 },
         { "id": "minecraft:netherite_axe", "priceBuy": 10000, "priceSell": 7000 },
         { "id": "minecraft:netherite_shovel", "priceBuy": 6000, "priceSell": 4200 },
         { "id": "minecraft:netherite_hoe", "priceBuy": 4000, "priceSell": 2800 },
-        // --- Diamentowe ---
+        
         { "id": "minecraft:diamond_sword", "priceBuy": 3000, "priceSell": 2100 },
         { "id": "minecraft:diamond_pickaxe", "priceBuy": 3000, "priceSell": 2100 },
         { "id": "minecraft:diamond_axe", "priceBuy": 2500, "priceSell": 1750 },
         { "id": "minecraft:diamond_shovel", "priceBuy": 1500, "priceSell": 1050 },
         { "id": "minecraft:diamond_hoe", "priceBuy": 1000, "priceSell": 700 },
-        // --- Złote ---
+        
         { "id": "minecraft:golden_sword", "icon": "textures/items/gold_sword", "priceBuy": 450, "priceSell": 270 },
         { "id": "minecraft:golden_pickaxe", "icon": "textures/items/gold_pickaxe", "priceBuy": 450, "priceSell": 270 },
         { "id": "minecraft:golden_axe", "icon": "textures/items/gold_axe", "priceBuy": 375, "priceSell": 225 },
         { "id": "minecraft:golden_shovel", "icon": "textures/items/gold_shovel", "priceBuy": 225, "priceSell": 135 },
         { "id": "minecraft:golden_hoe", "icon": "textures/items/gold_hoe", "priceBuy": 150, "priceSell": 90 },
-        // --- Żelazne ---
+        
         { "id": "minecraft:iron_sword", "priceBuy": 300, "priceSell": 180 },
         { "id": "minecraft:iron_pickaxe", "priceBuy": 300, "priceSell": 180 },
         { "id": "minecraft:iron_axe", "priceBuy": 250, "priceSell": 150 },
@@ -154,7 +149,7 @@ export default {
       "priceBuy": 900,
       "priceSell": 600,
       "potion": {
-        effect: "Swiftness",       // <-- zamiast "Speed"
+        effect: "Swiftness",
         liquid: "Regular",
         modifier: "Normal"
       }
@@ -166,7 +161,7 @@ export default {
       "priceBuy": 1500,
       "priceSell": 1000,
       "potion": {
-        effect: "Swiftness",       // <-- zamiast "Speed"
+        effect: "Swiftness",
         liquid: "Regular",
         modifier: "Long"
       }
@@ -178,7 +173,7 @@ export default {
       "priceBuy": 2100,
       "priceSell": 1470,
       "potion": {
-        effect: "Swiftness",       // <-- zamiast "Speed"
+        effect: "Swiftness",
         liquid: "Regular",
         modifier: "Strong"
       }
@@ -190,7 +185,7 @@ export default {
       "priceBuy": 2000,
       "priceSell": 1400,
       "potion": {
-        effect: "Strength",        // <-- zamiast "DamageBoost"
+        effect: "Strength",
         liquid: "Regular",
         modifier: "Normal"
       }
@@ -202,7 +197,7 @@ export default {
       "priceBuy": 3000,
       "priceSell": 2100,
       "potion": {
-        effect: "Strength",        // <-- zamiast "DamageBoost"
+        effect: "Strength",
         liquid: "Regular",
         modifier: "Long"
       }
@@ -214,7 +209,7 @@ export default {
       "priceBuy": 4000,
       "priceSell": 2800,
       "potion": {
-        effect: "Strength",        // <-- zamiast "DamageBoost"
+        effect: "Strength",
         liquid: "Regular",
         modifier: "Strong"
       }
@@ -226,7 +221,7 @@ export default {
       "priceBuy": 2700,
       "priceSell": 1900,
       "potion": {
-        effect: "Healing",          // <-- InstantHealth to "Healing"
+        effect: "Healing",
         liquid: "Splash",
         modifier: "Normal"
       }
