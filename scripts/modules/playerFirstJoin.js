@@ -38,10 +38,10 @@ function canAcces(player, block) {
     for (const plotId in acces) {
         const plot = acces[plotId];
         if (inArea(block, plot.startPos , plot.endPos)) {
-            return true; // gracz ma dostęp w tej działce
+            return true;
         }
     }
-    return false; // nie w żadnej działce
+    return false;
 }
 
 
