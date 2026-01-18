@@ -1,4 +1,3 @@
-// openShop.js
 import { world, ItemStack, ItemType, ItemTypes, PotionEffectType, PotionLiquidType, PotionModifierType} from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
 import config from "./configShop.js";
@@ -54,8 +53,8 @@ function openQuickSell(player) {
       return;
     }
 
-    const selectedItem = sellableItems[response.selection - 1]; // -1 bo pierwszy przycisk to "sprzedaj wszystko"
-    showSummary(player, selectedItem, false, true, {}); // sprzedaż
+    const selectedItem = sellableItems[response.selection - 1];
+    showSummary(player, selectedItem, false, true, {});
   });
 }
 function sellAllItems(player, sellableItems) {
@@ -115,21 +114,17 @@ function countAvailableSpaceForItem(inventory, itemStack) {
     const slot = inventory.getItem(i);
 
     if (!slot) {
-      // pusty slot - pełna pojemność
       spaceLeft += maxAmount;
       return maxAmount;
     } else if (slot.typeId === itemStack.typeId && slot.amount < maxAmount) {
-      // częściowo zapełniony slot tego samego przedmiotu
       spaceLeft += (maxAmount - slot.amount);
     }
 
-    // Zatrzymanie, jeśli już wystarczy miejsca
     if (spaceLeft >= maxAmount) {
       return maxAmount;
     }
   }
 
-  // jeśli jest mniej miejsca niż itemStack.amount, zwróć tyle ile jest
   return spaceLeft;
 }
 
@@ -142,7 +137,6 @@ function canFitAmount(inventory, itemStack) {
     const slot = inventory.getItem(i);
 
     if (!slot) {
-      // pusty slot = pełna pojemność
       remaining -= itemStack.maxAmount;
     } else if (
       slot.typeId === itemStack.typeId &&
@@ -362,23 +356,15 @@ ItemStack
   });
 }
 
-
-/**
- * Zamienia string z <minecraft:diamond> na rawtext z tłumaczeniem itemu.
- * Przykład: getRawText("Kupiłeś <minecraft:diamond> za 20$")
- */
-
 function getTranslatedName(itemId) {
     return "deprecated: Use getRawText instead -kot";
 }
 function getRawText(template) {
     const rawtext = [];
-    // Regexp: znajdź <...>
     const regex = /(<([^>]+)>|\/<|\/>)/g;
     let lastIndex = 0;
     let match;
     while ((match = regex.exec(template)) !== null) {
-        // Obsługa /< i /> jako dosłownych znaków
         if (match[0] === "/<") {
             if (match.index > lastIndex) {
                 rawtext.push({ text: template.slice(lastIndex, match.index) });
@@ -395,11 +381,9 @@ function getRawText(template) {
             lastIndex = regex.lastIndex;
             continue;
         }
-        // Dodaj tekst przed <>
         if (match.index > lastIndex) {
             rawtext.push({ text: template.slice(lastIndex, match.index) });
         }
-        // Dodaj tłumaczenie itemu
         const id = match[2];
         if (id) {
             try {
@@ -417,7 +401,6 @@ function getRawText(template) {
         }
         lastIndex = regex.lastIndex;
     }
-    // Dodaj tekst po ostatnim <>
     if (lastIndex < template.length) {
         rawtext.push({ text: template.slice(lastIndex) });
     }
